@@ -1,0 +1,17 @@
+{
+  "name": "meetapp-backend",
+  "version": "1.0.0",
+  "description": "Backend da aplicação para obtenção da certificação no Rocketseat Bootcamp 2019.",
+  "main": "index.js",
+  "repository": "https://github.com/felipeleite11/meetup.git",
+  "author": "Felipe Leite",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
