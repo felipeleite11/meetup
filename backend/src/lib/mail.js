@@ -1,5 +1,7 @@
+import { resolve } from 'path'
 import nodemailer from 'nodemailer'
 import mailConfig from '../config/mail'
+import { pugEngine } from 'nodemailer-pug-engine'
 
 class Mail {
     constructor() {
@@ -11,6 +13,8 @@ class Mail {
             secure,
             auth: auth.user ? auth : null
         })
+
+        this.configureTemplates()
     }
 
     sendMail(message) {
@@ -18,6 +22,13 @@ class Mail {
             ...mailConfig.default,
             ...message
         })
+    }
+
+    configureTemplates() {
+        this.transporter.use('compile', pugEngine({
+            templateDir: resolve(__dirname, '..', 'app', 'views', 'emails'),
+            pretty: true
+        }))
     }
 }
 

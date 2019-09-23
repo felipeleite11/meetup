@@ -1,0 +1,24 @@
+doctype 5
+html(lang="pt-BR")
+    head
+        style(type='text/css').
+            body {
+                font-family: Ubuntu, Roboto, Arial;
+                margin: 0;
+                padding: 0;
+                background: #2f2f2f;
+                color: #fff;
+            }
+            p {
+                font-size: 14px;
+                font-weight: 200;
+                padding: .4rem 1rem 0 1rem;
+            }
+    body
+        include partials/header-new-subscription.pug
+        p Olá #[strong #{owner}],
+        p #[strong #{subscribed}] acabou de se inscrever na meetup #[strong #{title}], que ocorrerá no dia #[strong #{date}] às #[strong #{time}].
+        p Esta meetup tem #[strong #{subscribersCount} inscrito(s)] até o momento.
+        p Att.
+        p Equipe Meetapp
+        include partials/footer.pug
