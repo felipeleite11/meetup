@@ -3,5 +3,6 @@
 settings.json
 
 uploads/
+!uploads/.gitkeep
 
 */.env
