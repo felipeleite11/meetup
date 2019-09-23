@@ -1,6 +1,7 @@
 import Subscription from '../models/Subscription'
 import { isBefore, areIntervalsOverlapping, addHours, format } from 'date-fns'
 import Mail from '../../lib/mail'
+import Zenvia from '../../lib/sms'
 
 import Meetup from '../models/Meetup'
 import User from '../models/User'
@@ -82,7 +83,7 @@ class SubscriptionController {
             ]
         })
 
-        const { name } = await User.findByPk(req.userId)
+        const { name: subscribed, phone } = await User.findByPk(req.userId)
 
         //Verificação da meetup
         if(!meetup) {
@@ -145,14 +146,27 @@ class SubscriptionController {
             }
         })
 
-        //E-mail de confirmação
+        //E-mail de confirmação para o organizador da meetup
         Mail.sendMail({
             to: `${meetup.user.name} <${meetup.user.email}>`,
-            subject: `Nova inscrição na meetup ${meetup.title}`,
-            text: `${name} acabou de se inscrever na meetup ${meetup.title}.`
+            subject: `Nova inscrição - Meetup ${meetup.title}`,
+            template: 'subscription-confirmation',
+            ctx: {
+                owner: meetup.user.name,
+                subscribed,
+                title: meetup.title,
+                date: format(meetup.datetime, 'dd/LL/yyyy'),
+                time: format(meetup.datetime, "HH:mm'h'"),
+                subscribersCount: meetup.subscribers.length + 1
+            }
         })
 
-        const { user_id, meetup_id } = subscription[0]
+        //SMS de confirmação para o inscrito
+
+        //subscriptionId é usado como ID da mensagem
+        const { id: subscriptionId, user_id, meetup_id } = subscription[0]
+
+        Zenvia.sendSMS(phone, `Sua inscrição na meetup ${meetup.title} está confirmada!`, subscriptionId)
 
         return res.json({ user_id, meetup_id })
     }
