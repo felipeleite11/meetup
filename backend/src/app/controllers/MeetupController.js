@@ -9,6 +9,7 @@ import User from '../models/User'
 class MeetupController {
     async index(req, res) {
         const { page = 1, date = new Date() } = req.query
+
         const itemsPerPage = 10
 
         const meetups = await Meetup.findAll({

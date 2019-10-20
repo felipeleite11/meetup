@@ -1,23 +1,30 @@
-const zenvia = require('@zenvia/zenvia-sms-core').api
+import axios from 'axios'
 import zenviaConfig from '../config/sms'
+import { format } from 'date-fns'
+import btoa from 'btoa'
 
 class Sms {
-    async sendSMS(target, message, id) {
-        zenvia.setCredentials(zenviaConfig.user, zenviaConfig.pass)
+    async sendSMS(target, message) {
+        const token = btoa(`${zenviaConfig.user}:${zenviaConfig.pass}`)
 
-        const response = await zenvia.sendSMS({
-            sendSmsRequest: {
-                from: zenviaConfig.from,
-                to: target,
-                //schedule: null,
+        const response = await axios.post('https://api-rest.zenvia.com/services/send-sms', {
+            "sendSmsRequest": {
+                from: zenviaConfig.messageData.from,
+                to: `55${target}`,
+                schedule: format(new Date(), `yyyy-MM-dd'T'HH:mm:ss`),
                 msg: message,
-                callbackOption: "NONE",
-                id: id.toString(),
-                aggregateId: '002'
+                callbackOption: 'ALL',
+                flashSms: false
+            }
+        }, {
+            headers: {
+                Authorization: `Basic ${token}`,
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
             }
         })
 
-        return response
+        return response.data
     }
 }
 

@@ -16,9 +16,9 @@ class UserController {
             return res.status(400).json({ msg: 'Já existe um usuário cadastrado com este e-mail.' })
         }
 
-        const { id, name } = await User.create(req.body)
+        const { id, name, phone } = await User.create(req.body)
 
-        return res.json({ id, name, email })
+        return res.json({ id, name, email, phone })
     }
 
     async update(req, res) {
