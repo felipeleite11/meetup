@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import Icon from '@mdi/react'
 import { mdiPlusCircleOutline } from '@mdi/js'
-
-import Header from '../../components/Header'
+import { toast } from 'react-toastify'
 
 import { Container, Form } from './styles'
+
+import api from '../../services/axios'
+
+import Header from '../../components/Header'
 
 export default class Profile extends Component {
     state = {
@@ -15,16 +18,60 @@ export default class Profile extends Component {
         newPasswordConfirm: ''
     }
 
-    handleSaveProfile = () => {
-        alert(`handleSaveProfile`)
+    componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('meetapp_user'))
+
+        this.setState({
+            name: user.name,
+            email: user.email
+        })
+    }
+
+    handleSaveProfile = async () => {
+        const { name, email, password, newPassword, newPasswordConfirm } = this.state
+
+        let profile = null
+
+        if(name && email) {
+            profile = { name, email }
+        }
+        else {
+            toast.warn('Preencha nome e e-mail corretamente.', { autoClose: 2300 })
+            return
+        }
+        
+        if(password && newPassword && newPassword === newPasswordConfirm) {
+            profile = { ...profile, password, newPassword }
+        }
+
+        try {
+            if(profile) {
+                const token = localStorage.getItem('meetapp_token')
+
+                const user = await api.put('/users', profile, {
+                    headers: {
+                        Authorization: `Basic ${token}`
+                    }
+                })
+
+                localStorage.setItem('meetapp_user', JSON.stringify(user))
+
+                this.props.history.push('/dashboard')
+            }
+        }
+        catch(err) {
+            toast.error(err.msg)
+        }
     }
 
     render() {
         const { name, email, password, newPassword, newPasswordConfirm } = this.state
 
+        const user = JSON.parse(localStorage.getItem('meetapp_user'))
+
         return (
             <>
-                <Header />
+                <Header user={user.name} />
 
                 <Container>
                     

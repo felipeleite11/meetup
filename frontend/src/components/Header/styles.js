@@ -26,16 +26,26 @@ export const UserContainer = styled.div`
             font-weight: bold;
         }
 
+        a {
+            text-decoration: none;
+            color: #c2c2c2;
+            transition: color 0.3s linear;
+
+            &:hover {
+                color: #a2a2a2;
+            }
+        }
+
         span {
             font-size: 12px;
-            color: #c2c2c2;
             margin-top: 4px;
+            float: right;
         }
     }
 
     button {
         font-size: 15px;
         font-weight: 500;
-        padding: 0 10px;
+        padding: 7px 10px;
     }
 `

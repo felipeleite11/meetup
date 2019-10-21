@@ -170,7 +170,9 @@ class SubscriptionController {
         })
 
         //SMS de confirmação de isncrição da meetup
-        Sms.sendSMS(phone, `Sua inscrição na meetup ${meetup.title} está confirmada!`)
+        if(phone) {
+            Sms.sendSMS(phone, `Sua inscrição na meetup ${meetup.title} está confirmada!`)
+        }
         
         const { user_id, meetup_id } = subscription[0]
 

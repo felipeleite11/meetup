@@ -1,23 +1,55 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
 
 import { Container } from './styles'
+
+import api from '../../services/axios'
 
 import logo from '../../assets/logo.png'
 
 export default class Login extends Component {
   state = {
-    email: '',
-    password: ''
+    email: 'adozindo@robot.rio.br',
+    password: '123'
   }
 
-  handleLogin = () => {
+  componentDidMount() {
+    const token = localStorage.getItem('meetapp_token')
+
+    if(token) {
+      this.props.history.push('/dashboard')
+      return
+    }
+  }
+
+  handleLogin = async () => {
     const { email, password } = this.state
 
-    this.props.history.push('/dashboard')
+    const token = localStorage.getItem('meetapp_token')
+
+    if(token) {
+      this.props.history.push('/dashboard')
+      return
+    }
+
+    try {
+      const session = await api.post('/sessions', {
+        email,
+        password
+      })
+
+      localStorage.setItem('meetapp_token', session.token)
+      localStorage.setItem('meetapp_user', JSON.stringify(session.user))
+
+      this.props.history.push('/dashboard')
+    }
+    catch(err) {
+      toast.error(err.msg)
+    }
   }
  
   handleSignUp = () => {
-    alert('handleSignUp')
+    this.props.history.push('/signup')
   }
 
   render() {

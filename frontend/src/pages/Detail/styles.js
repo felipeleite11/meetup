@@ -4,7 +4,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: auto;
-    height: 100vh;
+    height: calc(100vh - 60px);
 `
 
 export const TitleContainer = styled.div`
@@ -43,7 +43,11 @@ export const Content = styled.div`
     span {
         color: #b2b2b2;
         font-size: 12px;
-        margin: 22px 22px;
+        margin: 22px 26px 22px 0;
+
+        svg {
+            margin-right: 8px;
+        }
     }
 `
 

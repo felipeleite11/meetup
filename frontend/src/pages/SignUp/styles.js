@@ -27,4 +27,9 @@ export const Container = styled.div`
         font-size: 16px;
         margin-top: 10px;
     }
+
+    button[disabled] {
+        opacity: 0.3;
+        cursor: auto;
+    }
 `

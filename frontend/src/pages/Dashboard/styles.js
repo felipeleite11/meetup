@@ -4,7 +4,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: auto;
-    height: 100vh;
+    height: calc(100vh - 60px);
 
     ul {
         padding: 0 15%;
@@ -25,8 +25,20 @@ export const Container = styled.div`
                 background: rgba(0, 0, 0, 0.2);
             }
 
+            strong {
+                flex: 87;
+            }
+
             span {
                 color: #c2c2c2;
+                flex: 24;
+            }
+
+            div {
+                flex: 3;
+                padding-left: 30px;
+                align-items: center;
+                display: flex;
             }
         }
     }

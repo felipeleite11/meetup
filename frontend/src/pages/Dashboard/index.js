@@ -1,35 +1,39 @@
 import React, { Component } from 'react'
 import Icon from '@mdi/react'
-import { mdiPlusCircleOutline } from '@mdi/js'
-
-import Header from '../../components/Header'
+import { mdiPlusCircleOutline, mdiChevronRight } from '@mdi/js'
+import { format, parseISO } from 'date-fns'
+import pt from 'date-fns/locale/pt-BR'
+import api from '../../services/axios'
 
 import { Container, TitleContainer } from './styles'
 
+import Header from '../../components/Header'
+
 export default class Dashboard extends Component {
     state = {
-        meetups: []
+        meetups: [],
+        page: 1
     }
 
-    componentDidMount() {
-        this.setState({
-            meetups: [
-                {
-                    id: 1,
-                    name: 'Minha Meetup TOP',
-                    date: '4 de dezembro de 2019'
-                },
-                {
-                    id: 2,
-                    name: 'Minha Meetup RUIM',
-                    date: '1 de dezembro de 2019'
-                }
-            ]
+    async componentDidMount() {
+        const { page } = this.state
+        const token = localStorage.getItem('meetapp_token')
+        const date = format(new Date(), 'yyyy-MM-dd')
+
+        const meetups = await api.get(`/meetups?page=${page}&date=${date}`, {
+            headers: {
+                Authorization: `Basic ${token}`
+            }
         })
+
+        this.setState({ meetups })
     }
 
     handleMeetupClick = (id) => {
-        this.props.history.push('/detail')
+        this.props.history.push({
+            pathname: '/detail',
+            state: { id }
+        })
     }
 
     handleNewMeetup = () => {
@@ -39,9 +43,11 @@ export default class Dashboard extends Component {
     render() {
         const { meetups } = this.state
 
+        const user = JSON.parse(localStorage.getItem('meetapp_user'))
+
         return (
             <>
-                <Header />
+                <Header user={user.name} />
 
                 <Container>
                     <TitleContainer>
@@ -50,8 +56,6 @@ export default class Dashboard extends Component {
                         <button onClick={this.handleNewMeetup}>
                             <Icon path={mdiPlusCircleOutline}
                                 size={0.8}
-                                horizontal
-                                vertical
                                 color="#fff"
                             />
 
@@ -63,11 +67,17 @@ export default class Dashboard extends Component {
                         {meetups.map(meetup => (
                             <li key={meetup.id} onClick={() => this.handleMeetupClick(meetup.id)}>
                                 <strong>
-                                    {meetup.name}
+                                    {meetup.title}
                                 </strong>
                                 <span>
-                                    {meetup.date}
+                                    {format(parseISO(meetup.datetime), `dd 'de' LLLL', às' H'h'`, { locale: pt })}
                                 </span>
+                                <div>
+                                    <Icon path={mdiChevronRight}
+                                        size={0.8}
+                                        color="#fff"
+                                    />
+                                </div>
                             </li>
                         ))}
                     </ul>

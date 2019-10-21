@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
 
 import Routes from './routes'
+
+//import Header from './components/Header'
 
 import GlobalStyle from './styles/global'
 
@@ -10,15 +13,22 @@ import './config/reactotronConfig'
 
 import store from './store'
 
-function App() {
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes />
-        <GlobalStyle />
-      </BrowserRouter>
-    </Provider>
-  )
-}
+export default class App extends Component {
+  state = {
+    authenticated: true
+  }
 
-export default App
+  render() {
+    const { authenticated } = this.state
+
+    return (
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes />
+          <GlobalStyle />
+          <ToastContainer autoClose={3000} />
+        </BrowserRouter>
+      </Provider>
+    )
+  }
+}

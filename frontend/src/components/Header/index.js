@@ -1,32 +1,35 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 
 import { Container, UserContainer } from './styles'
 
 import logo from '../../assets/logo.png'
 
 export default class Header extends Component {
-
-    handleSignOut = () => {
-        alert('handleSignOut')
-    }
-  
     render() {
         return (
             <Container>
-                <img src={logo} />
+                <Link to="/dashboard">
+                    <img src={logo} />
+                </Link>
                 
                 <UserContainer>
                     <div>
                         <strong>
-                            Felipe Leite
+                            {this.props.user}
                         </strong>
-                        <span>
-                            Meu perfil
-                        </span>
+                        <Link to="/profile">
+                            <span>
+                                Meu perfil
+                            </span>
+                        </Link>
                     </div>
-                    <button onClick={this.handleSignOut}>
-                        Sair
-                    </button>
+
+                    <Link to="/logout">
+                        <button>
+                            Sair
+                        </button>
+                    </Link>
                 </UserContainer>
             </Container>
         )

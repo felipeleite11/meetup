@@ -8,7 +8,8 @@ import User from '../models/User'
 
 class MeetupController {
     async index(req, res) {
-        const { page = 1, date = new Date() } = req.query
+        //const { page = 1, date = new Date() } = req.query
+        const { page = 1 } = req.query
 
         const itemsPerPage = 10
 
@@ -16,7 +17,11 @@ class MeetupController {
             where: {
                 user_id: req.userId,
                 datetime: {
-                    [Op.between]: [startOfDay(parseISO(date)), endOfDay(parseISO(date))]
+                    // Retorna apenas as Meetups que estão marcadas para a data 'date'
+                    //[Op.between]: [startOfDay(parseISO(date)), endOfDay(parseISO(date))]
+
+                    // Retorna apenas as Meetups com data após a data atual
+                    [Op.gte]: new Date()
                 }
             },
             order: ['datetime'],
@@ -155,6 +160,26 @@ class MeetupController {
         })
 
         return res.json({ msg: 'Meetup cancelada com sucesso!' })
+    }
+
+    async show(req, res) {
+        const { id } = req.params
+
+        const meetup = await Meetup.findByPk(id, {
+            include: [
+                {
+                    model: File,
+                    as: 'banner',
+                    attributes: ['path', 'url']
+                }
+            ]
+        })
+
+        if(!meetup) {
+            return res.status(400).json({ msg: 'Meetup não encontrada.' })
+        }
+
+        return res.json(meetup)
     }
 }
 
