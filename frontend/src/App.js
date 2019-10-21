@@ -5,8 +5,6 @@ import { ToastContainer } from 'react-toastify'
 
 import Routes from './routes'
 
-//import Header from './components/Header'
-
 import GlobalStyle from './styles/global'
 
 import './config/reactotronConfig'
@@ -14,13 +12,7 @@ import './config/reactotronConfig'
 import store from './store'
 
 export default class App extends Component {
-  state = {
-    authenticated: true
-  }
-
   render() {
-    const { authenticated } = this.state
-
     return (
       <Provider store={store}>
         <BrowserRouter>

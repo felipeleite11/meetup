@@ -3,26 +3,19 @@ import { toast } from 'react-toastify'
 import { Input } from '@rocketseat/unform'
 import * as Yup from 'yup'
 
-import api from '../../services/axios'
+import { Container, FormContainer } from './styles'
 
-import { FormContainer, Container } from './styles'
+import api from '../../services/axios'
 
 import logo from '../../assets/logo.png'
 
-import { nameRegex } from '../../utils/regex'
-
-export default class SignUp extends Component {
+export default class SignIn extends Component {
   state = {
-    name: 'Novo Usuário',
-    email: 'email@email.com',
-    password: '123',
-    submitting: false
+    email: 'adozindo@robot.rio.br',
+    password: '123'
   }
 
   validation = Yup.object().shape({
-    name: Yup.string()
-      .matches(nameRegex, 'Este nome não é válido.')
-      .required('Informe seu nome.'),
     email: Yup.string()
       .email('Especifique um e-mail válido.')
       .required('É obrigatório um e-mail para login.'),
@@ -32,32 +25,42 @@ export default class SignUp extends Component {
       .required('É obrigatório especificar uma senha.')
   })
 
+  componentDidMount() {
+    const token = localStorage.getItem('meetapp_token')
+
+    if(token) {
+      this.props.history.push('/dashboard')
+      return
+    }
+  }
+
   handleSubmit = async data => {
+    const token = localStorage.getItem('meetapp_token')
+
+    if(token) {
+      this.props.history.push('/dashboard')
+      return
+    }
+
     try {
-      await api.post('/users', data)
+      const session = await api.post('/sessions', data)
 
-      this.setState({
-        name: '',
-        email: '',
-        password: '',
-        submitting: true
-      })
+      localStorage.setItem('meetapp_token', session.token)
+      localStorage.setItem('meetapp_user', JSON.stringify(session.user))
 
-      toast.success('Cadastro realizado com sucesso!')
-
-      this.props.history.push('/')
+      this.props.history.push('/dashboard')
     }
     catch(err) {
       toast.error(err.msg)
     }
   }
-
-  handleLoginRedirect = () => {
-    this.props.history.push('/')
+ 
+  handleSignUp = () => {
+    this.props.history.push('/signup')
   }
 
   render() {
-    const { name, email, password, submitting } = this.state
+    const { email, password } = this.state
 
     return (
       <Container>
@@ -66,31 +69,24 @@ export default class SignUp extends Component {
 
             <Input 
               type="text" 
-              placeholder="Nome completo" 
-              value={name}
-              onChange={e => this.setState({ name: e.target.value })}
-              name="name"
-            />
-
-            <Input 
-              type="text" 
               placeholder="Digite seu e-mail" 
-              value={email}
               onChange={e => this.setState({ email: e.target.value })}
+              value={email} 
               name="email"
             />
 
             <Input 
               type="password" 
               placeholder="Sua senha secreta" 
-              value={password}
               onChange={e => this.setState({ password: e.target.value })}
+              value={password}
               name="password"
+              maxLength="30"
             />
 
-            <button disabled={submitting}>Criar conta</button>
+            <button>Entrar</button>
 
-            <button className="transparent" onClick={this.handleLoginRedirect}>Já tenho login</button>
+            <button className="transparent" href="#" onClick={this.handleSignUp}>Criar conta grátis</button>
         </FormContainer>
       </Container>
     )

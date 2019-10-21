@@ -52,4 +52,15 @@ export default createGlobalStyle`
         border: none;
         border-radius: 4px;
     }
+
+    /* Estilo da mensagem de validação */
+    form.validable input + span,
+    form.validable textarea + span {
+        color: #2c2c2c;
+        align-self: flex-end;
+        background: #ffeb3b;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 11px;
+    }
 `

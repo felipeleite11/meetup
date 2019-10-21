@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Form } from '@rocketseat/unform'
 
 export const Container = styled.div`
     display: flex;
@@ -7,7 +8,7 @@ export const Container = styled.div`
     height: calc(100vh - 60px);
 `
 
-export const Form = styled.div`
+export const FormContainer = styled(Form)`
     display: flex;
     flex-direction: column;
     padding: 0 15%;

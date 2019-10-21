@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import Login from './pages/Login'
+import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import Dashboard from './pages/Dashboard'
 import Detail from './pages/Detail'
@@ -12,7 +12,7 @@ import Logout from './pages/Logout'
 export default function Routes() {
     return (
         <Switch>
-            <Route path="/" component={Login} exact />
+            <Route path="/" component={SignIn} exact />
             <Route path="/signup" component={SignUp} /> 
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/detail" component={Detail} />

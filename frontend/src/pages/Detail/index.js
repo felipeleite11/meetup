@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Icon from '@mdi/react'
-import { mdiTrashCanOutline, mdiPencilOutline, mdiCalendar, mdiMapMarker, mdiToaster  } from '@mdi/js'
+import { mdiTrashCanOutline, mdiPencilOutline, mdiCalendar, mdiMapMarker  } from '@mdi/js'
 import { format, parseISO } from 'date-fns'
 import pt from 'date-fns/locale/pt-BR'
 import api from '../../services/axios'

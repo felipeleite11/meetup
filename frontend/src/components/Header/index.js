@@ -10,7 +10,7 @@ export default class Header extends Component {
         return (
             <Container>
                 <Link to="/dashboard">
-                    <img src={logo} />
+                    <img src={logo} alt="Meetapp" />
                 </Link>
                 
                 <UserContainer>

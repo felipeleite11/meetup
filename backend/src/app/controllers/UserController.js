@@ -38,7 +38,7 @@ class UserController {
         }
 
         if(oldPassword && !(await user.checkPassword(oldPassword))) {
-            return res.status(401).json({ msg: 'Senha incorreta.' })
+            return res.status(401).json({ msg: 'A senha atual está incorreta.' })
         }
 
         const { id, name } = await user.update(req.body)
