@@ -12,6 +12,19 @@ export default class Upload extends React.Component {
         banner_id: null
     }
 
+    componentDidMount() {
+        setTimeout(() => {
+            const { banner } = this.props
+
+            if(banner) {
+                this.setState({ 
+                    file: banner.url,
+                    banner_id: banner.id
+                })
+            }
+        }, 1000)
+    }
+
     handleChange = async e => {
         this.setState({
             file: URL.createObjectURL(e.target.files[0])

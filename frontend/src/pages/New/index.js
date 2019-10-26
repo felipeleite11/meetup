@@ -9,8 +9,6 @@ import * as Yup from 'yup'
 import { Container, FormContainer } from './styles'
 
 import Header from '../../components/Header'
-//import BannerImage from '../../components/BannerImage'
-//import ImagePreviewer from '../../components/ImagePreviewer'
 import Upload from '../../components/Upload'
 
 export default class New extends Component {
@@ -19,10 +17,12 @@ export default class New extends Component {
         title: 'Minha meetup',
         description: 'Descrição da minha meetup.',
         datetime: '2019-12-31 07:00:00',
-        location: 'Rua x, sala 2'
+        location: 'Rua x, sala 2',
+        banner: null
     }
 
-    bannerImageRef = null
+    bannerImageRef = createRef()
+    token = localStorage.getItem('meetapp_token')
 
     validation = Yup.object().shape({
         title: Yup.string()
@@ -35,19 +35,14 @@ export default class New extends Component {
         datetime: Yup.date('Este campo deve conter uma data válida.')
             .required('Especifique a data e horário da meetup'),
         location: Yup.string()
-            .min(3, 'O endereço deve conter pelo menos 3 caracteres')
+            .min(3, 'O endereço deve conter pelo menos 3 caracteres'),
     })
 
-    async componentDidMount() {
-        this.bannerImageRef = createRef()
-
-        if(this.props.location.state && this.props.location.state.id) {
-            const id = this.props.location.state.id
-            const token = localStorage.getItem('meetapp_token')
-
-            const { title, description, datetime, location } = await api.get(`/meetups/${id}`, {
+    componentDidMount() {
+        const loadData = async id => {
+            const { title, description, datetime, location, banner } = await api.get(`/meetups/${id}`, {
                 headers: {
-                    Authorization: `Basic ${token}`
+                    Authorization: `Basic ${this.token}`
                 }
             })
 
@@ -56,8 +51,13 @@ export default class New extends Component {
                 title, 
                 description, 
                 datetime, 
-                location
+                location,
+                banner
             })
+        }
+       
+        if(this.props.location.state && this.props.location.state.id) {
+            loadData(this.props.location.state.id)
         }
     }
 
@@ -67,8 +67,12 @@ export default class New extends Component {
     }
 
     handleSubmit = async data => {
+        if(!this.bannerImageRef.current.state.file) {
+            toast.warn('Selecione um banner para a meetup.')
+            return
+        }
+
         const { id } = this.state
-        const token = localStorage.getItem('meetapp_token')
         
         data.banner_id = this.bannerImageRef.current.state.banner_id
         
@@ -76,7 +80,7 @@ export default class New extends Component {
             try {
                 await api.put(`/meetups`, data, {
                     headers: {
-                        Authorization: `Basic ${token}`,
+                        Authorization: `Basic ${this.token}`,
                         id
                     }
                 })
@@ -91,7 +95,7 @@ export default class New extends Component {
             try {
                 const meetup = await api.post(`/meetups`, data, {
                     headers: {
-                        Authorization: `Basic ${token}`
+                        Authorization: `Basic ${this.token}`
                     }
                 })
             
@@ -113,8 +117,8 @@ export default class New extends Component {
     }
 
     render() {
-        const { title, description, datetime, location } = this.state
-
+        const { title, description, datetime, location, banner } = this.state
+        
         const user = JSON.parse(localStorage.getItem('meetapp_user'))
 
         return (
@@ -125,11 +129,10 @@ export default class New extends Component {
                     
                     <FormContainer onSubmit={this.handleSubmit} schema={this.validation} className="validable">
                         
-                        {/* <BannerImage name="banner_id" /> */}
-
-                        {/* <ImagePreviewer name="banner_id" /> */}
-
-                        <Upload ref={this.bannerImageRef} />
+                        <Upload 
+                            ref={this.bannerImageRef} 
+                            banner={banner} 
+                        />
 
                         <Input 
                             type="text" 

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import Icon from '@mdi/react'
-import { mdiPlusCircleOutline, mdiChevronRight } from '@mdi/js'
+import { mdiPlusCircleOutline, mdiChevronRight, mdiChevronLeft } from '@mdi/js'
 import { format, parseISO } from 'date-fns'
 import pt from 'date-fns/locale/pt-BR'
 import api from '../../services/axios'
 
-import { Container, TitleContainer } from './styles'
+import { Container, TitleContainer, PaginationContainer } from './styles'
 
 import Header from '../../components/Header'
 
@@ -15,14 +15,15 @@ export default class Dashboard extends Component {
         page: 1
     }
 
+    token = localStorage.getItem('meetapp_token')
+    date = format(new Date(), 'yyyy-MM-dd')
+
     async componentDidMount() {
         const { page } = this.state
-        const token = localStorage.getItem('meetapp_token')
-        const date = format(new Date(), 'yyyy-MM-dd')
 
-        const meetups = await api.get(`/meetups?page=${page}&date=${date}`, {
+        const meetups = await api.get(`/meetups?page=${page}&date=${this.date}`, {
             headers: {
-                Authorization: `Basic ${token}`
+                Authorization: `Basic ${this.token}`
             }
         })
 
@@ -40,8 +41,42 @@ export default class Dashboard extends Component {
         this.props.history.push('/new')
     }
 
+    handlePrevPage = async () => {
+        const { page } = this.state
+
+        if(page > 1) {
+            const meetups = await api.get(`/meetups?page=${page - 1}&date=${this.date}`, {
+                headers: {
+                    Authorization: `Basic ${this.token}`
+                }
+            })
+
+            this.setState({ 
+                meetups, 
+                page: page - 1 
+            })
+        }
+    }
+
+    handleNextPage = async () => {
+        const { page } = this.state
+
+        const meetups = await api.get(`/meetups?page=${page + 1}&date=${this.date}`, {
+            headers: {
+                Authorization: `Basic ${this.token}`
+            }
+        })
+
+        if(meetups.length) {
+            this.setState({ 
+                meetups,
+                page: page + 1
+            })
+        }
+    }
+
     render() {
-        const { meetups } = this.state
+        const { meetups, page } = this.state
 
         const user = JSON.parse(localStorage.getItem('meetapp_user'))
 
@@ -63,9 +98,27 @@ export default class Dashboard extends Component {
                         </button>
                     </TitleContainer>
 
+                    <PaginationContainer>
+                        <button onClick={this.handlePrevPage}>
+                            <Icon path={mdiChevronLeft}
+                                size={0.8}
+                                color="#fff"
+                            />
+                        </button>
+
+                        <span>{page}</span>
+
+                        <button onClick={this.handleNextPage}>
+                            <Icon path={mdiChevronRight}
+                                size={0.8}
+                                color="#fff"
+                            />
+                        </button>
+                    </PaginationContainer>
+
                     <ul>
-                        {meetups.map(meetup => (
-                            <li key={meetup.id} onClick={() => this.handleMeetupClick(meetup.id)}>
+                        {meetups.map((meetup, index) => (
+                            <li key={meetup.id} onClick={() => this.handleMeetupClick(meetup.id)} position={index}>
                                 <strong>
                                     {meetup.title}
                                 </strong>

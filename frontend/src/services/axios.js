@@ -1,8 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    //baseURL: `${process.env.APP_URL}:${process.env.APP_PORT}`
-    baseURL: `http://192.168.43.46:3333`
+    baseURL: `${process.env.REACT_APP_URL}:${process.env.REACT_APP_PORT}`
 })
 
 function onRequestSuccess(response) {

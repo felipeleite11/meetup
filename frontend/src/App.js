@@ -3,11 +3,11 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 
+import './config/reactotronConfig'
+
 import Routes from './routes'
 
 import GlobalStyle from './styles/global'
-
-import './config/reactotronConfig'
 
 import store from './store'
 

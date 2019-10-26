@@ -1,5 +1,24 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle, keyframes } from 'styled-components'
 import 'react-toastify/dist/ReactToastify.css'
+
+const animations = {
+    fadeIn: keyframes`
+        from { 
+            opacity: 0; 
+        }
+        to { 
+            opacity: 1;
+        }
+    `,
+    expandHeight: keyframes`
+        from { 
+            transform: scale(1, 0);
+        }
+        to { 
+            transform: scale(1, 1);
+        }
+    `
+}
 
 export default createGlobalStyle`
     * {
@@ -57,7 +76,8 @@ export default createGlobalStyle`
         border-radius: 4px;
     }
 
-    /* Estilo da mensagem de validação */
+
+    /* Validation messages customization */
     form.validable input + span,
     form.validable textarea + span {
         color: #2c2c2c;
@@ -66,5 +86,27 @@ export default createGlobalStyle`
         border-radius: 4px;
         padding: 8px;
         font-size: 11px;
+    }
+
+
+    /* Global animations */
+    #root > div:not(.Toastify),
+    #root form {
+        h1 {
+            animation: ${animations.fadeIn} 1s;
+        }
+
+        input, textarea, img, div {
+            animation: ${animations.expandHeight} 0.2s;
+        }
+ 
+        button {
+            animation: ${animations.expandHeight} 0.2s;
+            width: auto;
+
+            @media (max-width: 600px) {
+                width: 100%;
+            }
+        }
     }
 `

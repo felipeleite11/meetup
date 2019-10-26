@@ -36,9 +36,11 @@ Nessa tela o usuário pode editar os dados de um meetup ou até cancelar um meet
 
 O usuário deve poder cadastrar ou editar informações de meetups que organiza.
 
-- Exiba a preview de imagem de banner do meetup quando o usuário selecionar uma imagem.
+Exiba a preview de imagem de banner do meetup quando o usuário selecionar uma imagem.
 
 Utilize validação nos campos.
+
+Exibir o banner atual no campo de imagem ao editar uma meetup.
 
 ## Perfil
 
@@ -47,5 +49,7 @@ O usuário deve poder editar suas informações de cadastro.
 Utilize validação nos campos.
 
 ## Recursos extras  
-- Paginação na listas de meetups  
-- Animações  
+Animações  
+Paginação na listas de meetups  
+
+- Verificar o código provisório na página Detail.

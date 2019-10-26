@@ -63,6 +63,8 @@ export default class Profile extends Component {
 
             localStorage.setItem('meetapp_user', JSON.stringify(user))
 
+            toast.success(`Perfil atualizado com sucesso!`)
+
             this.props.history.push('/dashboard')
         }
         catch(err) {

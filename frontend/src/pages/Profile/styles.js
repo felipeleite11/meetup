@@ -23,7 +23,6 @@ export const FormContainer = styled(Form)`
         align-items: center;
         justify-content: center;
         margin-top: 10px;
-        width: 200px;
         margin-left: auto;
 
         svg {

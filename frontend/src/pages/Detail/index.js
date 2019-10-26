@@ -20,17 +20,19 @@ export default class Detail extends Component {
         //PROVISÓRIO
     }
 
+    token = localStorage.getItem('meetapp_token')
+
     async componentDidMount() {
-        const token = localStorage.getItem('meetapp_token')
         const id = this.props.location.state.id
         
         const meetup = await api.get(`/meetups/${id}`, {
             headers: {
-                Authorization: `Basic ${token}`
+                Authorization: `Basic ${this.token}`
             }
         })
 
         //PROVISÓRIO
+        // banner tem que ser pego separadamente. Entender por que.
         const banner = meetup.banner.url
         const date = parseISO(meetup.datetime)
         //PROVISÓRIO
@@ -49,12 +51,10 @@ export default class Detail extends Component {
         const { meetup } = this.state
 
         try {
-            const token = localStorage.getItem('meetapp_token')
-
             await api.delete('/meetups', {
                 headers: { 
                     id,
-                    Authorization: `Basic ${token}`
+                    Authorization: `Basic ${this.token}`
                 }
             })
 

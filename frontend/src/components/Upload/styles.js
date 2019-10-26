@@ -1,4 +1,15 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+const fadeIn = keyframes`
+    from { 
+        opacity: 0; 
+        transform: scale(0.5, 0.2);
+    }
+    to { 
+        color: 1; 
+        transform: scale(1, 1);
+    }
+`
 
 export const Container = styled.div`
     align-self: center;
@@ -12,6 +23,11 @@ export const Container = styled.div`
     align-items: center;
 
     label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
         cursor: pointer;
 
         &:hover {
@@ -21,8 +37,9 @@ export const Container = styled.div`
         img {
             width: 100%;
             max-height: 240px;
-            border: solid 3px rgba(255, 255, 255, 0.3);
             background: #eee;
+
+            animation: ${fadeIn} 0.7s;
         }
 
         input {
