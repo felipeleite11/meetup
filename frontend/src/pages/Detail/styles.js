@@ -4,7 +4,7 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: auto;
-    height: calc(100vh - 60px);
+    padding-bottom: 50px;
 `
 
 export const TitleContainer = styled.div`
@@ -60,5 +60,14 @@ export const ActionContainer = styled.div`
 
     button:first-child {
         background: #4DBAF9;
+    }
+
+    @media (max-width: 600px) {
+        flex-direction: column;
+        
+        button {
+            margin-left: 4px;
+            margin-bottom: 8px;
+        }
     }
 `

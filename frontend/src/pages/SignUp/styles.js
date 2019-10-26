@@ -14,7 +14,7 @@ export const FormContainer = styled(Form)`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 400px;
+    width: 300px;
 
     input, button {
         margin: 10px 0;

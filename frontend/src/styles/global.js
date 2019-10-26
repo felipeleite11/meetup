@@ -10,7 +10,12 @@ export default createGlobalStyle`
     }
 
     body {
-        background: linear-gradient(0deg, rgba(37,33,46,1) 0%, rgba(53,37,59,1) 100%);
+        background: -webkit-linear-gradient(0deg, rgba(37,33,46,1) 0%, rgba(53,37,59,1) 100%);
+        background:    -moz-linear-gradient(0deg, rgba(37,33,46,1) 0%, rgba(53,37,59,1) 100%);
+        background:     -ms-linear-gradient(0deg, rgba(37,33,46,1) 0%, rgba(53,37,59,1) 100%);
+        background:      -o-linear-gradient(0deg, rgba(37,33,46,1) 0%, rgba(53,37,59,1) 100%);
+        background:         linear-gradient(0deg, rgba(37,33,46,1) 0%, rgba(53,37,59,1) 100%);
+        background-attachment: fixed;
         -webkit-font-smoothing: antialiased;
         color: #fff;
     }
@@ -21,7 +26,6 @@ export default createGlobalStyle`
 
     #root {
         width: auto;
-        min-width: 500px;
         padding: 0;
     }
 
