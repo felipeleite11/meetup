@@ -1,15 +1,13 @@
 import styled from 'styled-components/native'
+import LinearGradient from 'react-native-linear-gradient'
 
-export const Container = styled.View`
+export const Container = styled(LinearGradient).attrs({
+    colors: ['#25212E', '#3D2742']
+})`
     height: 100%;
-    padding: 30px;
-    background-color: #25212E;
-    justify-content: center;
+    padding: 0 30px;
+    justify-content: flex-start;
     align-items: center;
-`
-
-export const Logo = styled.Image`
-    margin-bottom: 40px;
 `
 
 export const Input = styled.TextInput`
@@ -25,7 +23,16 @@ export const Input = styled.TextInput`
 export const Button = styled.TouchableOpacity`
     border-radius: 4px;
     width: 100%;
-    background-color: #F94D6A;
+    background-color: #E5556E;
+    align-items: center;
+    padding: 20px;
+    margin: 10px 0;
+`
+
+export const DarkButton = styled.TouchableOpacity`
+    border-radius: 4px;
+    width: 100%;
+    background-color: #D44059;
     align-items: center;
     padding: 20px;
     margin: 10px 0;
@@ -37,9 +44,9 @@ export const InnerText = styled.Text`
     font-size: 20px;
 `
 
-export const Link = styled.TouchableOpacity`
+export const Divider = styled.View`
+    border-bottom-color: #4e4e4e;
+    border-bottom-width: 1;
     width: 100%;
-    align-items: center;
-    padding: 20px;
+    margin: 16px 0 10px;
 `
-  

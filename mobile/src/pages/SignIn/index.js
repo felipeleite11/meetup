@@ -1,53 +1,86 @@
-import React, { Component } from 'react'
-import { SafeAreaView } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { SafeAreaView, AsyncStorage, Alert } from 'react-native'
+import { NavigationActions, StackActions  } from 'react-navigation'
+
+import api from '../../services/axios'
 
 import { Container, Logo, Input, Button, InnerText, Link } from './styles'
 
 import logo from '../../assets/logo.png'
 
-export default class SignIn extends Component {
-  static navigationOptions = {
-    header: null
-  }
+export default function SignIn({ navigation }) {
+  const [email, setEmail] = useState('felipe@robot.rio.br')
+  const [password, setPassword] = useState('123')
 
-  handleLogin = () => {
-    console.tron.log('FAZER O LOGIN AGORA!')
+  useEffect(() => {
+    async function checkAutenticated() {
+      const token = await AsyncStorage.getItem('meetapp_token')
+      
+      if(token) return navigation.navigate('Main')
+    }
     
-    const { navigation } = this.props
-    navigation.navigate('Main')
+    checkAutenticated()
+  }, [])
+
+  async function handleLogin() {
+    try {
+      const session = await api.post('/sessions', { email, password })
+
+      await AsyncStorage.setItem('meetapp_token', session.token)
+
+      //Redefine a stack, removendo a tela de login
+      const stackReset = StackActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Main'})
+        ]
+      })
+
+      navigation.dispatch(stackReset)
+    } catch (err) {
+      Alert.alert(err.msg)
+      setPassword('')
+    }
   }
 
-  handleCreateAccount = () => {
-    const { navigation } = this.props
+  function handleCreateAccount() {
     navigation.navigate('SignUp')
   }
 
-  render() {
-    return (
-        <SafeAreaView>
-          <Container>
+  return (
+      <SafeAreaView>
+        <Container>
 
-            <Logo source={logo} />
+          <Logo source={logo} />
 
-            <Input 
-              placeholder="Digite seu e-mail"
-            />
-             
-            <Input 
-              placeholder="Sua senha secreta"
-              secureTextEntry={true}
-            />
+          <Input 
+            placeholder="Digite seu e-mail"
+            value={email}
+            onChangeText={setEmail}
+          />
+            
+          <Input 
+            placeholder="Sua senha secreta"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
 
-            <Button onPress={this.handleLogin}>
-              <InnerText>Entrar</InnerText>
-            </Button>
+          <Button onPress={handleLogin}>
+            <InnerText>Entrar</InnerText>
+          </Button>
 
-            <Link onPress={this.handleCreateAccount}>
-              <InnerText>Criar conta grátis</InnerText>
-            </Link>
+          <Link onPress={handleCreateAccount}>
+            <InnerText>Criar conta grátis</InnerText>
+          </Link>
 
-          </Container>
-        </SafeAreaView>
-    )
-  }
+        </Container>
+      </SafeAreaView>
+  )
 }
+
+SignIn.navigationOptions = {
+  header: null
+}
+
+

@@ -1,45 +1,103 @@
 import styled from 'styled-components/native'
+import LinearGradient from 'react-native-linear-gradient'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
-export const Container = styled.View`
+export const Container = styled(LinearGradient).attrs({
+    colors: ['#25212E', '#3D2742']
+})`
     height: 100%;
-    padding: 30px;
-    background-color: #25212E;
+    padding: 0 30px;
     justify-content: center;
     align-items: center;
 `
 
-export const Logo = styled.Image`
-    margin-bottom: 40px;
+export const Paginator = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 30px;
 `
 
-export const Input = styled.TextInput`
-    background-color: #FFF;
-    color: #2c2c2c;
-    width: 100%;
-    border-radius: 4;
+export const PaginatorText = styled.Text`
+    font-weight: bold;
     font-size: 20px;
-    margin: 10px 0;
-    padding: 14px 10px;
+    color: #FFF;
+    padding: 0 26px 20px;
+`
+
+export const PaginatorArrow = styled(Icon)`
+    font-size: 20px;
+    color: #FFF;
+    padding: 15px 18px;
+    height: 50px;
+    margin-top: -10px;
+`
+
+export const List = styled.FlatList`
+    width: 100%;
+`
+
+export const Card = styled.View`
+    height: auto;
+    background: #FFF;
+    border-radius: 4px;
+    margin: 12px 0;
+`
+
+export const CardInfo = styled.View`
+    padding: 14px;
+`
+
+export const InfoContainer = styled.View`
+    flex-direction: row;
+    padding: 10px 5px 0;
+    justify-content: flex-start;
+    align-items: center;
+`
+
+export const CardTitle = styled.Text`
+    font-weight: bold;
+    font-size: 22px;
+`
+
+export const CardImage = styled.Image`
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    width: 100%;
+    height: 120px;
+`
+
+export const CardIcon = styled(Icon)`
+    width: auto;
+    width: 12px;
+    justify-content: center;
+`
+
+export const CardText = styled.Text`
+    color: #7d7d7d;
+    font-size: 16px;
+    margin-left: 5px;
 `
 
 export const Button = styled.TouchableOpacity`
     border-radius: 4px;
-    width: 100%;
-    background-color: #F94D6A;
+    max-width: 100%;
+    background-color: #E5556E;
     align-items: center;
-    padding: 20px;
-    margin: 10px 0;
+    padding: 14px;
+    margin: 15px 0;
 `
 
-export const InnerText = styled.Text`
+export const ButtonText = styled.Text`
     color: #FFF;
     font-weight: bold;
     font-size: 20px;
 `
 
-export const Link = styled.TouchableOpacity`
-    width: 100%;
-    align-items: center;
-    padding: 20px;
-`
-  
+// export const PlaceholderText = styled.Text`
+//     color: #FFF;
+//     font-size: 30px;
+//     width: 100%;
+//     height: 100%;
+//     justify-content: center;
+//     align-items: center;
+// `

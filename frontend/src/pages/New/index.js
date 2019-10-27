@@ -14,10 +14,10 @@ import Upload from '../../components/Upload'
 export default class New extends Component {
     state = {
         id: null,
-        title: 'Minha meetup',
-        description: 'Descrição da minha meetup.',
-        datetime: '2019-12-31 07:00:00',
-        location: 'Rua x, sala 2',
+        title: '',
+        description: '',
+        datetime: '',
+        location: '',
         banner: null
     }
 
@@ -68,14 +68,13 @@ export default class New extends Component {
 
     handleSubmit = async data => {
         if(!this.bannerImageRef.current.state.file) {
-            toast.warn('Selecione um banner para a meetup.')
-            return
+            return toast.warn('Selecione um banner para a meetup.')
         }
 
         const { id } = this.state
         
         data.banner_id = this.bannerImageRef.current.state.banner_id
-        
+
         if(id) { // Edição
             try {
                 await api.put(`/meetups`, data, {
@@ -102,7 +101,7 @@ export default class New extends Component {
                 toast.success(`A meetup ${meetup.title} foi cadastrada com sucesso!`)
             }
             catch(err) {
-                toast.error(err)
+                return toast.error(err.msg)
             }
         }
 

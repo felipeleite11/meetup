@@ -1,58 +1,77 @@
-import React, { Component } from 'react'
-import { SafeAreaView } from 'react-native'
+import React, { useState } from 'react'
+import { SafeAreaView, Alert } from 'react-native'
 
 import { Container, Logo, Input, Button, InnerText, Link } from './styles'
 
+import api from '../../services/axios'
+
 import logo from '../../assets/logo.png'
 
-export default class SignIn extends Component {
-  static navigationOptions = {
-    header: null
-  }
+export default function SignUp({ navigation }) {
+  const [name, setName] = useState('Novo Usuário')
+  const [email, setEmail] = useState('email@email.com')
+  const [password, setPassword] = useState('123')
 
-  handleLoginForm = () => {
-    const { navigation } = this.props
+  function handleLoginForm() {
     navigation.navigate('SignIn')
   }
 
-  handleCreateAccount = () => {
-    console.tron.log('CRIAR CONTA AGORA!')
+  async function handleCreateAccount() {
+    try {
+      await api.post('/users', {
+        name,
+        email,
+        password
+      })
+    }
+    catch(err) {
+      return Alert.alert(err.msg)
+    }
 
-    const { navigation } = this.props
+    Alert.alert('Sua conta foi criada!')
+
     navigation.navigate('SignIn')
   }
 
-  render() {
-    return (
-        <SafeAreaView>
-          <Container>
+  return (
+      <SafeAreaView>
+        <Container>
 
-            <Logo source={logo} />
+          <Logo source={logo} />
 
-            <Input 
-              placeholder="Nome completo"
-            />
-             
-            <Input 
-              placeholder="Digite Seu e-mail"
-              keyboardType="email-address"
-            />
+          <Input 
+            placeholder="Nome completo"
+            value={name}
+            onChangeText={setName}
+          />
+            
+          <Input 
+            placeholder="Digite Seu e-mail"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
+          />
 
-            <Input 
-              placeholder="Sua senha secreta"
-              secureTextEntry={true}
-            />
+          <Input 
+            placeholder="Sua senha secreta"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={setPassword}
+          />
 
-            <Button onPress={this.handleCreateAccount}>
-              <InnerText>Criar conta</InnerText>
-            </Button>
+          <Button onPress={handleCreateAccount}>
+            <InnerText>Criar conta</InnerText>
+          </Button>
 
-            <Link onPress={this.handleLoginForm}>
-              <InnerText>Já tenho login</InnerText>
-            </Link>
+          <Link onPress={handleLoginForm}>
+            <InnerText>Já tenho login</InnerText>
+          </Link>
 
-          </Container>
-        </SafeAreaView>
-    )
-  }
+        </Container>
+      </SafeAreaView>
+  )
+}
+
+SignUp.navigationOptions = {
+  header: null
 }

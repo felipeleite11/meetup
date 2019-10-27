@@ -27,6 +27,11 @@ class SubscriptionController {
                             model: File,
                             as: 'banner',
                             attributes: ['path', 'url']
+                        },
+                        {
+                            model: User,
+                            as: 'user',
+                            attributes: ['id', 'name', 'email']
                         }
                     ],
                     where: {
@@ -177,6 +182,23 @@ class SubscriptionController {
         const { user_id, meetup_id } = subscription[0]
 
         return res.json({ user_id, meetup_id })
+    }
+
+    async delete(req, res) {
+        const { id } = await req.params
+
+        if(!id) {
+            return res.status(400).json({ msg: 'ID inválido.' })
+        }
+
+        await Subscription.destroy({
+            where: { 
+                meetup_id: id,
+                user_id: req.userId
+            }
+        })
+
+        return res.json({ msg: 'Inscrição cancelada com sucesso!' })
     }
 }
 

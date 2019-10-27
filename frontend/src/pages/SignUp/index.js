@@ -13,9 +13,9 @@ import { nameRegex } from '../../utils/regex'
 
 export default class SignUp extends Component {
   state = {
-    name: 'Novo Usuário',
-    email: 'email@email.com',
-    password: '123',
+    name: '',
+    email: '',
+    password: '',
     submitting: false
   }
 

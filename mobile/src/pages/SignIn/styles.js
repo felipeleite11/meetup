@@ -1,9 +1,11 @@
 import styled from 'styled-components/native'
+import LinearGradient from 'react-native-linear-gradient'
 
-export const Container = styled.View`
+export const Container = styled(LinearGradient).attrs({
+    colors: ['#25212E', '#3D2742']
+})`
     height: 100%;
     padding: 30px;
-    background-color: #25212E;
     justify-content: center;
     align-items: center;
 `
@@ -25,7 +27,7 @@ export const Input = styled.TextInput`
 export const Button = styled.TouchableOpacity`
     border-radius: 4px;
     width: 100%;
-    background-color: #F94D6A;
+    background-color: #E5556E;
     align-items: center;
     padding: 20px;
     margin: 10px 0;

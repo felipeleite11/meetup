@@ -8,20 +8,17 @@ import User from '../models/User'
 
 class MeetupController {
     async index(req, res) {
-        //const { page = 1, date = new Date() } = req.query
-        const { page = 1 } = req.query
+        const { page = 1, date = new Date() } = req.query
 
-        const itemsPerPage = 10
+        const itemsPerPage = 3
 
         const meetups = await Meetup.findAll({
             where: {
-                user_id: req.userId,
+                user_id: {
+                    [Op.ne]: req.userId
+                },
                 datetime: {
-                    // Retorna apenas as Meetups que estão marcadas para a data 'date'
-                    //[Op.between]: [startOfDay(parseISO(date)), endOfDay(parseISO(date))]
-
-                    // Retorna apenas as Meetups com data após a data atual
-                    [Op.gte]: new Date()
+                    [Op.between]: [startOfDay(parseISO(date)), endOfDay(parseISO(date))]
                 }
             },
             order: ['datetime'],

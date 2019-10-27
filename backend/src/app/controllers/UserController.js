@@ -45,5 +45,14 @@ class UserController {
 
         return res.json({ id, name, email })
     }
+
+    async show(req, res) {
+        const user = await User.findByPk(req.userId, {
+            attributes: ['id', 'name', 'email', 'phone']
+        })
+
+        return res.json(user)
+    }
 }
+
 export default new UserController()

@@ -16,12 +16,11 @@ export default class Dashboard extends Component {
     }
 
     token = localStorage.getItem('meetapp_token')
-    date = format(new Date(), 'yyyy-MM-dd')
 
     async componentDidMount() {
         const { page } = this.state
 
-        const meetups = await api.get(`/meetups?page=${page}&date=${this.date}`, {
+        const meetups = await api.get(`/meetups/owner?page=${page}`, {
             headers: {
                 Authorization: `Basic ${this.token}`
             }
@@ -45,7 +44,7 @@ export default class Dashboard extends Component {
         const { page } = this.state
 
         if(page > 1) {
-            const meetups = await api.get(`/meetups?page=${page - 1}&date=${this.date}`, {
+            const meetups = await api.get(`/meetups/owner?page=${page - 1}`, {
                 headers: {
                     Authorization: `Basic ${this.token}`
                 }
@@ -61,7 +60,7 @@ export default class Dashboard extends Component {
     handleNextPage = async () => {
         const { page } = this.state
 
-        const meetups = await api.get(`/meetups?page=${page + 1}&date=${this.date}`, {
+        const meetups = await api.get(`/meetups/owner?page=${page + 1}`, {
             headers: {
                 Authorization: `Basic ${this.token}`
             }
