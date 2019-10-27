@@ -11,8 +11,8 @@ import logo from '../../assets/logo.png'
 
 export default class SignIn extends Component {
   state = {
-    email: 'adozindo@robot.rio.br',
-    password: '123'
+    email: '',
+    password: ''
   }
 
   validation = Yup.object().shape({
