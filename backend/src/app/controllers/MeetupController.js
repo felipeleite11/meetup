@@ -3,17 +3,28 @@ import { Op } from 'sequelize'
 import * as Yup from 'yup'
 
 import Meetup from '../models/Meetup'
+import Subscription from '../models/Subscription'
 import File from '../models/File'
 import User from '../models/User'
 
 class MeetupController {
     async index(req, res) {
         const { page = 1, date = new Date() } = req.query
-
         const itemsPerPage = 3
+
+        const { rows: subscribedMeetups } = await Subscription.findAndCountAll({
+            where: {
+                user_id: req.userId
+            }
+        })
+
+        const subscribedMeetupsIds = subscribedMeetups.map(meetup => meetup.meetup_id)
 
         const meetups = await Meetup.findAll({
             where: {
+                id: {
+                    [Op.notIn]: subscribedMeetupsIds
+                },
                 user_id: {
                     [Op.ne]: req.userId
                 },
