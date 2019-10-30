@@ -1,4 +1,3 @@
-const letter = '[A-Za-zÁÉÍÓÚáéíóúÂÊÔâêôÇç]'
+const letter = '[A-Za-zÁÉÍÓÚáéíóúÂÊÔâêôÇç0-9]'
 
-
-export const nameRegex = new RegExp(`${letter}+ ${letter}+( ${letter}+)?`)
+export const nameRegex = new RegExp(`${letter}+(( ${letter}+)+)?`)

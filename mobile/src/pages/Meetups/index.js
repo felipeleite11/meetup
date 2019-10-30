@@ -26,33 +26,39 @@ import {
 
 export default function Meetups({ navigation }) {
   const [meetups, setMeetups] = useState([])
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(new Date(2019, 11, 1))
   const [page, setPage] = useState(1)
-  const [refreshing, setRefreshing] = useState(false)
+  const [refreshing, setRefreshing] = useState(true)
 
   useEffect(() => {
 
     loadMeetups()
 
-  }, [date, page])
+  }, [date])
 
   async function loadMeetups() {
-    const token = await AsyncStorage.getItem('meetapp_token')
-
-    if(!token) return navigation.navigate('SignIn')
-
     try {
+      setRefreshing(true)
+
+      const token = await AsyncStorage.getItem('meetapp_token')
+
+      if(!token) return navigation.navigate('SignIn')
+
       const meetups = await api.get('/meetups', {
-        params: { page, date },
+        params: { page: 1, date },
         headers: {
           Authorization: `Basic ${token}`
         }
       })
       
+      setPage(1)
       setMeetups(meetups)
     }
     catch(err) {
-      Alert.alert(err.msg)
+      Alert.alert(err.msg || 'Ocorreu um erro ao carregar as meetups desta data.')
+    }
+    finally {
+      setRefreshing(false)
     }
   }
 
@@ -93,20 +99,34 @@ export default function Meetups({ navigation }) {
   }
 
   async function loadMore() {
-    const token = await AsyncStorage.getItem('meetapp_token')
+    if(meetups.length < 3) return
 
     try {
+      setRefreshing(true)
+
+      const token = await AsyncStorage.getItem('meetapp_token')
+
       const response = await api.get('/meetups', {
-        params: { page, date },
+        params: { 
+          page: page + 1, 
+          date 
+        },
         headers: {
           Authorization: `Basic ${token}`
         }
       })
+
+      setPage(page + 1)
       
-      setMeetups([...meetups, ...response.data])
+      if(response.length) {
+        setMeetups([...meetups, ...response])
+      }
     }
     catch(err) {
-      Alert.alert(err.msg)
+      Alert.alert(err.msg || 'Ocorreu um erro ao tentar carregar mais itens na lista.')
+    }
+    finally {
+      setRefreshing(false)
     }
   }
   
@@ -115,7 +135,7 @@ export default function Meetups({ navigation }) {
       <Container>
 
         <NavigationEvents
-          onDidFocus={() => loadMeetups()}
+          onDidFocus={loadMeetups}
         />
 
         <Paginator>
@@ -140,7 +160,7 @@ export default function Meetups({ navigation }) {
 
                   <InfoContainer>
                     <CardIcon name="calendar" color="#7d7d7d" size={13} />
-                    <CardText>{format(parseISO(item.datetime), `dd 'de' MMMM`, { locale: pt })}</CardText>
+                    <CardText>{format(parseISO(item.datetime), `dd 'de' MMMM', às' HH':'mm'h'`, { locale: pt })}</CardText>
                   </InfoContainer>
 
                   <InfoContainer>
@@ -167,44 +187,6 @@ export default function Meetups({ navigation }) {
         ) : (
           <EmptyList />
         )}
-
-        {/* <ScrollView style={{ width: '100%' }}>
-
-          {meetups.length ? meetups.map(meetup => (
-            <Card key={meetup.id}>
-              <CardImage 
-                source={{ uri: meetup.banner.url }} 
-                style={{ resizeMode: 'cover' }}
-              />
-
-              <CardInfo>
-                <CardTitle>{meetup.title}</CardTitle>
-
-                <InfoContainer>
-                  <CardIcon name="calendar" color="#7d7d7d" size={13} />
-                  <CardText>{format(parseISO(meetup.datetime), `dd 'de' MMMM`, { locale: pt })}</CardText>
-                </InfoContainer>
-
-                <InfoContainer>
-                  <CardIcon name="map-marker" color="#7d7d7d" size={16} />
-                  <CardText>{meetup.location}</CardText>
-                </InfoContainer>
-
-                <InfoContainer>
-                  <CardIcon name="user" color="#7d7d7d" size={14} />
-                  <CardText>Organizador: {meetup.user.name}</CardText>
-                </InfoContainer>
-
-                <Button onPress={() => handleSubscribe(meetup.id)}>
-                  <ButtonText>Realizar inscrição</ButtonText>
-                </Button>
-              </CardInfo>
-            </Card>
-          )) : (
-            <EmptyList />
-          )}
-
-        </ScrollView> */}
 
       </Container>
     </SafeAreaView>
