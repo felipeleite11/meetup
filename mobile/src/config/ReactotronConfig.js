@@ -1,7 +1,8 @@
 import Reactotron from 'reactotron-react-native'
+import { REACT_APP_IP } from 'react-native-dotenv'
 
 if(__DEV__) {
-    const tron = Reactotron.configure({ host: '192.168.43.46' }).useReactNative().connect()
+    const tron = Reactotron.configure({ host: REACT_APP_IP }).useReactNative().connect()
 
     console.tron = tron
 

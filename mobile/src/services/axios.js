@@ -1,8 +1,8 @@
 import axios from 'axios'
+import { REACT_APP_URL, REACT_APP_PORT } from 'react-native-dotenv'
 
 const api = axios.create({
-    //baseURL: `${process.env.REACT_APP_URL}:${process.env.REACT_APP_PORT}`
-    baseURL: `http://192.168.43.46:3333`
+    baseURL: `${REACT_APP_URL}:${REACT_APP_PORT}`
 })
 
 function onRequestSuccess(response) {
