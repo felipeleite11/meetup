@@ -30,7 +30,9 @@ export const InfoContainer = styled.View`
 `
 
 
-export const List = styled.FlatList`
+export const List = styled.FlatList.attrs({
+    showsHorizontalScrollIndicator: false
+})`
     width: 100%;
 `
 

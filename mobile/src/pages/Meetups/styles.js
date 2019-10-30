@@ -32,7 +32,9 @@ export const PaginatorArrow = styled(Icon)`
     margin-top: -10px;
 `
 
-export const List = styled.FlatList`
+export const List = styled.FlatList.attrs({
+    showsHorizontalScrollIndicator: false
+})`
     width: 100%;
     opacity: ${props => props.refreshing ? '0.2' : '1'};
 `
