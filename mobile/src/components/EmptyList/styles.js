@@ -2,9 +2,11 @@ import styled from 'styled-components'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 export const Container = styled.View`
+    flex: 1;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    width: 100%;
     opacity: 0.5;
 `
 

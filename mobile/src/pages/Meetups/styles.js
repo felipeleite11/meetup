@@ -7,13 +7,13 @@ export const Container = styled(LinearGradient).attrs({
 })`
     height: 100%;
     padding: 0 30px;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 `
 
 export const Paginator = styled.View`
     flex-direction: row;
-    justify-content: center;
+    align-items: flex-start;
     padding-top: 30px;
 `
 
@@ -34,6 +34,7 @@ export const PaginatorArrow = styled(Icon)`
 
 export const List = styled.FlatList`
     width: 100%;
+    opacity: ${props => props.refreshing ? '0.2' : '1'};
 `
 
 export const Card = styled.View`
