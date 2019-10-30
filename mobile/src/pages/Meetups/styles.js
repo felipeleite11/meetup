@@ -86,6 +86,7 @@ export const Button = styled.TouchableOpacity`
     align-items: center;
     padding: 14px;
     margin: 15px 0;
+    opacity: ${props => props.disabled ? '0.4' : '1'};
 `
 
 export const ButtonText = styled.Text`
@@ -93,12 +94,3 @@ export const ButtonText = styled.Text`
     font-weight: bold;
     font-size: 20px;
 `
-
-// export const PlaceholderText = styled.Text`
-//     color: #FFF;
-//     font-size: 30px;
-//     width: 100%;
-//     height: 100%;
-//     justify-content: center;
-//     align-items: center;
-// `

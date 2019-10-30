@@ -173,8 +173,10 @@ export default function Meetups({ navigation }) {
                     <CardText>Organizador: {item.user.name}</CardText>
                   </InfoContainer>
 
-                  <Button onPress={() => handleSubscribe(item.id)}>
-                    <ButtonText>Realizar inscrição</ButtonText>
+                  <Button onPress={() => handleSubscribe(item.id)} disabled={item.past}>
+                    <ButtonText>
+                      {item.past ? 'Inscrição encerrada' : 'Realizar inscrição'}
+                    </ButtonText>
                   </Button>
                 </CardInfo>
               </Card>
