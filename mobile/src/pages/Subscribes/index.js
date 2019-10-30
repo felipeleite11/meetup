@@ -97,7 +97,7 @@ export default function Subscribes({ navigation }) {
 
                   <InfoContainer>
                     <CardIcon name="calendar" color="#7d7d7d" size={13} />
-                    <CardText>{format(parseISO(item.meetup.datetime), `dd 'de' MMMM`, { locale: pt })}</CardText>
+                    <CardText>{format(parseISO(item.meetup.datetime), `dd 'de' MMMM', às' HH':'mm'h'`, { locale: pt })}</CardText>
                   </InfoContainer>
 
                   <InfoContainer>
