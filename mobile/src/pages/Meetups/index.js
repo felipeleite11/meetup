@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, AsyncStorage, Alert, View } from 'react-nativ
 import { NavigationEvents } from 'react-navigation'
 import { format, parseISO, addDays, subDays } from 'date-fns'
 import { pt } from 'date-fns/locale'
+//import Snackbar from 'react-native-snackbar'
 
 import api from '../../services/axios'
 
@@ -87,6 +88,18 @@ export default function Meetups({ navigation }) {
     }
 
     navigation.navigate('Subscribes')
+
+    // Snackbar.show({
+    //   title: 'Inscrição realizada!',
+    //   duration: Snackbar.LENGTH_LONG,
+    //   backgroundColor: 'white',
+    //   color: '#2C2C2C',
+    //   // action: {
+    //   //   title: 'DESFAZER',
+    //   //   color: '#2C2C2C',
+    //   //   onPress: () => Alert.alert('Faça login')
+    //   // }
+    // })
     
     Alert.alert('Inscrição realizada!')
 

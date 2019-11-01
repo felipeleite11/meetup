@@ -5495,6 +5495,11 @@ react-native-screens@1.0.0-alpha.23, "react-native-screens@^1.0.0 || ^1.0.0-alph
   dependencies:
     debounce "^1.2.0"
 
+react-native-snackbar@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar/-/react-native-snackbar-2.0.3.tgz#b40843894aafa213f8a4c46fded5205befee4f19"
+  integrity sha512-gpDTYDhKkgXir2vjbbdd3Lz0QJZvl5vbeUjnIAWS/pE1k9Eshdby3cLxnJJ8gLxUHT96smuKIDKvgNV1spnNZA==
+
 react-native-tab-view@^2.9.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-2.10.0.tgz#5e249e5650502010013449ffd4e5edc18a95364b"

@@ -8,9 +8,9 @@ import api from '../../services/axios'
 import logo from '../../assets/logo.png'
 
 export default function SignUp({ navigation }) {
-  const [name, setName] = useState('Novo Usuário')
-  const [email, setEmail] = useState('email@email.com')
-  const [password, setPassword] = useState('123')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   function handleLoginForm() {
     navigation.navigate('SignIn')

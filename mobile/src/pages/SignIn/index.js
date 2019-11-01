@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, AsyncStorage, Alert } from 'react-native'
+import { SafeAreaView, AsyncStorage, Alert, Text } from 'react-native'
 import { NavigationActions, StackActions  } from 'react-navigation'
 
 import api from '../../services/axios'
@@ -9,7 +9,7 @@ import { Container, Logo, Input, Button, InnerText, Link } from './styles'
 import logo from '../../assets/logo.png'
 
 export default function SignIn({ navigation }) {
-  const [email, setEmail] = useState('felipe@robot.rio.br')
+  const [email, setEmail] = useState('felipe@rocketseat.com')
   const [password, setPassword] = useState('123')
 
   useEffect(() => {
@@ -20,6 +20,7 @@ export default function SignIn({ navigation }) {
     }
     
     checkAutenticated()
+
   }, [])
 
   async function handleLogin() {
@@ -35,9 +36,11 @@ export default function SignIn({ navigation }) {
           NavigationActions.navigate({ routeName: 'Main'})
         ]
       })
-
+      
       navigation.dispatch(stackReset)
-    } catch (err) {
+    } 
+    catch (err) {
+      console.tron.log(err)
       Alert.alert(err.msg)
       setPassword('')
     }
