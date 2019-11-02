@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, ScrollView, AsyncStorage, Alert, View } from 'react-native'
+import { SafeAreaView, AsyncStorage, Alert } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { format, parseISO, addDays, subDays } from 'date-fns'
 import { pt } from 'date-fns/locale'
-//import Snackbar from 'react-native-snackbar'
+import Snackbar from 'react-native-snackbar'
 
 import api from '../../services/axios'
 
@@ -89,20 +89,13 @@ export default function Meetups({ navigation }) {
 
     navigation.navigate('Subscribes')
 
-    // Snackbar.show({
-    //   title: 'Inscrição realizada!',
-    //   duration: Snackbar.LENGTH_LONG,
-    //   backgroundColor: 'white',
-    //   color: '#2C2C2C',
-    //   // action: {
-    //   //   title: 'DESFAZER',
-    //   //   color: '#2C2C2C',
-    //   //   onPress: () => Alert.alert('Faça login')
-    //   // }
-    // })
+    Snackbar.show({
+      title: 'Inscrição realizada!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor: '#4caf50',
+      color: '#FFF'
+    })
     
-    Alert.alert('Inscrição realizada!')
-
     loadMeetups()
   }
 

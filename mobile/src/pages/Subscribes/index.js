@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, ScrollView, AsyncStorage, Alert, FlatList } from 'react-native'
+import { SafeAreaView, AsyncStorage, Alert } from 'react-native'
 import { NavigationEvents } from 'react-navigation'
 import { format, parseISO } from 'date-fns'
 import { pt } from 'date-fns/locale'
+import Snackbar from 'react-native-snackbar'
 
 import api from '../../services/axios'
 
@@ -64,7 +65,32 @@ export default function Subscribes({ navigation }) {
       return Alert.alert(err.msg)
     }
 
-    Alert.alert('Inscrição cancelada!')
+    //Alert.alert('Inscrição cancelada!')
+
+    Snackbar.show({
+      title: 'Inscrição cancelada!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor: '#ffeb3b',
+      color: '#2c2c2c',
+      action: {
+        title: 'DESFAZER',
+        color: '#F00',
+        onPress: async () => {
+          try {
+            await api.post(`/meetups/${id}/subscribe`, {}, {
+              headers: {
+                Authorization: `Basic ${token}`
+              }
+            })
+
+            loadSubscriptions()
+          }
+          catch(err) {
+            return Alert.alert(err.msg)
+          }
+        }
+      }
+    })
 
     loadSubscriptions()
   }
